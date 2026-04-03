@@ -33,7 +33,7 @@ export function TopHeader() {
             Contact
           </Link>
           <Link
-            href='#contact'
+            href='/enquire'
             className='inline-flex rounded-full bg-cyan-500 hover:bg-cyan-600 px-8 py-3 text-lg font-bold text-white shadow-lg transition'
           >
             Enquire Now
