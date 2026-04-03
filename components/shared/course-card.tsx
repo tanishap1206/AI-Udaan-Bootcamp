@@ -1,0 +1,177 @@
+'use client'
+
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+// import { GlassCard } from './glass-card'
+import { Button } from '@/components/ui/button'
+import Image from 'next/image'
+import { useState } from 'react';
+import Modal from '@/components/ui/Modal';
+import { cardVariants } from '@/lib/animationVariants';
+
+interface CourseCardProps {
+  id: string
+  title: string
+  description: string
+  price: number
+  image?: string
+  instructor: string
+  duration: string
+  level: string
+  rating: number
+  students: number
+}
+
+export const CourseCard = ({
+  id,
+  title,
+  description,
+  price,
+  image,
+  instructor,
+  duration,
+  level,
+  rating,
+  students,
+}: CourseCardProps) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [form, setForm] = useState({ name: '', email: '', phone: '' });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // TODO: handle form submission (API call, etc.)
+    setModalOpen(false);
+  };
+
+  return (
+    <>
+      <motion.div
+        variants={cardVariants}
+        initial="hidden"
+        animate="show"
+        whileHover={{
+          scale: 1.03,
+          boxShadow: '0 8px 32px 0 rgba(0,0,0,0.18)',
+        }}
+        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        className="h-full flex flex-col rounded-2xl bg-white shadow-md hover:shadow-2xl transition-shadow duration-300"
+      >
+        <Link href={`/courses/${id}`} className="flex-1 flex flex-col">
+          {/* Course Image */}
+          <div className='relative mb-5 h-48 w-full overflow-hidden rounded-xl border border-slate-100 bg-gradient-to-r from-pink-50 to-blue-50'>
+            <div className='absolute left-3 top-3 z-10 rounded-full border border-slate-200 bg-white/95 px-3 py-1 text-xs font-medium text-slate-600'>
+              {level}
+            </div>
+            {image ? (
+              <Image
+                src={image}
+                alt={title}
+                width={400}
+                height={200}
+                className='w-full h-full object-cover'
+              />
+            ) : (
+              <div className='flex h-full w-full items-center justify-center'>
+                <div className='text-5xl'>📚</div>
+              </div>
+            )}
+          </div>
+
+          {/* Course Info */}
+          <h3 className='mb-2 line-clamp-2 text-lg font-semibold text-slate-900'>
+            {title}
+          </h3>
+          <p className='mb-5 line-clamp-2 text-sm text-slate-500'>
+            {description}
+          </p>
+
+          {/* Instructor & Level */}
+          <div className='mb-5 flex items-center justify-between border-b border-slate-100 pb-4'>
+            <div>
+              <p className='text-xs text-slate-400'>Instructor</p>
+              <p className='text-sm font-medium text-slate-700'>{instructor}</p>
+            </div>
+            <div className='text-right'>
+              <p className='text-xs text-slate-400'>Duration</p>
+              <p className='text-sm font-medium text-slate-700'>{duration}</p>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className='mb-4 flex items-center justify-between'>
+            <div className='flex items-center gap-1'>
+              <span className='text-yellow-400'>⭐</span>
+              <span className='text-sm text-slate-700'>{rating}</span>
+              <span className='text-xs text-slate-400'>({students})</span>
+            </div>
+          </div>
+        </Link>
+
+        {/* Price & CTA */}
+        <div className='mt-auto flex items-center justify-between border-t border-slate-100 pt-4'>
+          <div>
+            {price > 0 ? (
+              <>
+                <p className='text-xs text-slate-400'>Price</p>
+                <p className='text-lg font-bold text-slate-900'>${price}</p>
+              </>
+            ) : (
+              <p className='text-lg font-bold text-green-400'>Free</p>
+            )}
+          </div>
+          <div className="flex gap-2">
+            <Button size='sm' variant='primary'>
+              Enroll
+            </Button>
+            <Button size='sm' variant='secondary' onClick={() => setModalOpen(true)}>
+              Apply Scholarship
+            </Button>
+          </div>
+        </div>
+      </motion.div>
+
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+        <h2 className="text-xl font-bold mb-4 text-center">Apply for Scholarship</h2>
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <input
+            name="name"
+            type="text"
+            placeholder="Name"
+            required
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring"
+            value={form.name}
+            onChange={handleChange}
+          />
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            required
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring"
+            value={form.email}
+            onChange={handleChange}
+          />
+          <input
+            name="phone"
+            type="tel"
+            placeholder="Phone"
+            required
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring"
+            value={form.phone}
+            onChange={handleChange}
+          />
+          <button
+            type="submit"
+            className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            Submit
+          </button>
+        </form>
+      </Modal>
+    </>
+  );
+}

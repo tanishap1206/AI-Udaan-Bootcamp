@@ -1,0 +1,51 @@
+import { prisma } from '@/lib/db'
+import { verifyToken, extractTokenFromHeader } from '@/lib/auth/jwt'
+import { NextRequest, NextResponse } from 'next/server'
+
+export async function GET(request: NextRequest) {
+  try {
+    // Extract token from header
+    const authHeader = request.headers.get('Authorization')
+    const token = extractTokenFromHeader(authHeader || '')
+
+    if (!token) {
+      return NextResponse.json(
+        { message: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
+
+    // Verify token
+    const decoded = verifyToken(token)
+
+    if (!decoded) {
+      return NextResponse.json(
+        { message: 'Invalid token' },
+        { status: 401 }
+      )
+    }
+
+    // Get user
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.userId },
+    })
+
+    if (!user) {
+      return NextResponse.json(
+        { message: 'User not found' },
+        { status: 404 }
+      )
+    }
+
+    // Return user data without password
+    const { password: _, ...userWithoutPassword } = user
+
+    return NextResponse.json(userWithoutPassword)
+  } catch (error) {
+    console.error('Get user error:', error)
+    return NextResponse.json(
+      { message: 'Failed to get user' },
+      { status: 500 }
+    )
+  }
+}
