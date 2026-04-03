@@ -4,8 +4,6 @@ import * as XLSX from 'xlsx'
 import * as fs from 'fs'
 import * as path from 'path'
 
-const ENQUIRIES_FILE = path.join(process.cwd(), 'public', 'enquiries.xlsx')
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
