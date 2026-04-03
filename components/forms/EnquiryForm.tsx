@@ -154,13 +154,13 @@ export function EnquiryForm() {
           animate="visible"
           className="text-center mb-8"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-3">
+          <h1 className="text-4xl md:text-5xl font-bold mb-3">
             <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Join AI Udaan Bootcamp 2026
             </span>
           </h1>
 
-          <p className="text-gray-400 text-base">
+          <p className="text-gray-400 text-lg">
             Fill your details and secure your seat in this exclusive program
           </p>
         </motion.div>
@@ -181,7 +181,7 @@ export function EnquiryForm() {
               initial="hidden"
               animate="visible"
             >
-              <label className="block mb-2 text-base font-medium text-gray-300">
+              <label className="block mb-2 text-lg font-medium text-gray-300">
                 Full Name <span className="text-red-400">*</span>
               </label>
               <motion.input
@@ -191,7 +191,7 @@ export function EnquiryForm() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Enter your full name"
-                className={`w-full bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-base text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 ${
+                className={`w-full bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 ${
                   errors.name ? 'border-red-500' : ''
                 }`}
               />
@@ -205,7 +205,7 @@ export function EnquiryForm() {
               initial="hidden"
               animate="visible"
             >
-              <label className="block mb-2 text-base font-medium text-gray-300">
+              <label className="block mb-2 text-lg font-medium text-gray-300">
                 Email <span className="text-red-400">*</span>
               </label>
               <motion.input
@@ -215,7 +215,7 @@ export function EnquiryForm() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
-                className={`w-full bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-base text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 ${
+                className={`w-full bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 ${
                   errors.email ? 'border-red-500' : ''
                 }`}
               />
@@ -229,7 +229,7 @@ export function EnquiryForm() {
               initial="hidden"
               animate="visible"
             >
-              <label className="block mb-2 text-base font-medium text-gray-300">
+              <label className="block mb-2 text-lg font-medium text-gray-300">
                 Mobile Number <span className="text-red-400">*</span>
               </label>
               <motion.input
@@ -239,7 +239,7 @@ export function EnquiryForm() {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="Enter 10 digit phone number"
-                className={`w-full bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-base text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 ${
+                className={`w-full bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 ${
                   errors.phone ? 'border-red-500' : ''
                 }`}
               />
@@ -253,7 +253,7 @@ export function EnquiryForm() {
               initial="hidden"
               animate="visible"
             >
-              <label className="block mb-2 text-base font-medium text-gray-300">
+              <label className="block mb-2 text-lg font-medium text-gray-300">
                 Message <span className="text-gray-500 text-xs">(Optional)</span>
               </label>
               <motion.textarea
@@ -263,7 +263,7 @@ export function EnquiryForm() {
                 onChange={handleChange}
                 placeholder="Tell us anything else you'd like to share..."
                 rows={3}
-                className="w-full bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-base text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 resize-none"
+                className="w-full bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 resize-none"
               />
             </motion.div>
 
@@ -280,7 +280,7 @@ export function EnquiryForm() {
                 disabled={isLoading}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full py-3 px-6 rounded-xl font-semibold text-base transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] text-white"
+                className="w-full py-3 px-6 rounded-xl font-semibold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] text-white"
               >
                 <div className="relative flex items-center justify-center gap-2">
                   {isLoading ? (
