@@ -2,7 +2,7 @@ import { BootcampHero } from '@/components/landing/bootcamp-hero'
 import { WhatYouWillBuild } from '@/components/landing/what-you-build'
 import { WhyThisBootcamp } from '@/components/landing/why-bootcamp'
 import { AboutOrganizer } from '@/components/landing/about-organizer'
-import { Contact } from '@/components/landing/contact'
+import { EnquireCTA } from '@/components/landing/enquire-cta'
 import { ProgramStructure } from '@/components/landing/program-structure'
 import { AISaasSession } from '@/components/landing/ai-saas-session'
 import { AIContentFilmmaking } from '@/components/landing/ai-content-filmmaking'
@@ -34,7 +34,7 @@ export default function Home() {
       <WhyThisBootcamp />
       <AIQuoteSection />
       <AboutOrganizer />
-      <Contact />
+      <EnquireCTA />
       <ProgramStructure />
       <AISaasSession />
       <AIContentFilmmaking />

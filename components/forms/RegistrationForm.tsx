@@ -147,7 +147,7 @@ export function RegistrationForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-20 px-4">
+    <div className="min-h-screen flex items-center justify-center py-8 px-4">
       {/* Animated gradient background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-purple-500/5" />
@@ -159,28 +159,28 @@ export function RegistrationForm() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="w-full max-w-xl relative z-10"
+        className="w-full max-w-4xl relative z-10"
       >
         {/* Glass Card */}
-        <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-8 md:p-12 shadow-2xl shadow-cyan-500/10">
+        <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 md:p-8 shadow-2xl shadow-cyan-500/10">
           {/* Header */}
           <motion.div
             variants={fadeUpVariants}
             initial="hidden"
             animate="visible"
-            className="mb-8 text-center"
+            className="mb-4 text-center"
           >
-            <h1 className="text-4xl md:text-5xl font-black mb-3">
+            <h1 className="text-4xl md:text-5xl font-black mb-2">
               <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Register Now
               </span>
             </h1>
             <p className="text-gray-300 text-lg">Join AI Udaan Bootcamp 2026</p>
-            <div className="h-1 w-20 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full mx-auto mt-4" />
+            <div className="h-1 w-20 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full mx-auto mt-2" />
           </motion.div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4 grid grid-cols-1 md:grid-cols-2 md:gap-4">
             {/* Full Name */}
             <motion.div
               variants={fadeUpVariants}
@@ -188,7 +188,7 @@ export function RegistrationForm() {
               animate="visible"
               transition={{ delay: 0.1 }}
             >
-              <label className="block mb-2 text-gray-300 font-medium">
+              <label className="block mb-2 text-gray-300 font-medium text-base">
                 Full Name
                 <span className="text-red-400">*</span>
               </label>
@@ -198,7 +198,7 @@ export function RegistrationForm() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Enter your full name"
-                className={`w-full px-4 py-3 bg-white/5 border rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent ${
+                className={`w-full px-4 py-2 bg-white/5 border rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base ${
                   errors.name ? 'border-red-500' : 'border-white/20'
                 }`}
               />
@@ -212,7 +212,7 @@ export function RegistrationForm() {
               animate="visible"
               transition={{ delay: 0.15 }}
             >
-              <label className="block mb-2 text-gray-300 font-medium">
+              <label className="block mb-2 text-gray-300 font-medium text-base">
                 Mobile Number
                 <span className="text-red-400">*</span>
               </label>
@@ -222,7 +222,7 @@ export function RegistrationForm() {
                 value={formData.mobile}
                 onChange={handleChange}
                 placeholder="Enter 10 digit mobile number"
-                className={`w-full px-4 py-3 bg-white/5 border rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent ${
+                className={`w-full px-4 py-2 bg-white/5 border rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base ${
                   errors.mobile ? 'border-red-500' : 'border-white/20'
                 }`}
               />
@@ -236,7 +236,7 @@ export function RegistrationForm() {
               animate="visible"
               transition={{ delay: 0.2 }}
             >
-              <label className="block mb-2 text-gray-300 font-medium">
+              <label className="block mb-2 text-gray-300 font-medium text-base">
                 Email ID
                 <span className="text-red-400">*</span>
               </label>
@@ -246,7 +246,7 @@ export function RegistrationForm() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
-                className={`w-full px-4 py-3 bg-white/5 border rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent ${
+                className={`w-full px-4 py-2 bg-white/5 border rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base ${
                   errors.email ? 'border-red-500' : 'border-white/20'
                 }`}
               />
@@ -260,14 +260,14 @@ export function RegistrationForm() {
               animate="visible"
               transition={{ delay: 0.25 }}
             >
-              <label className="block mb-2 text-gray-300 font-medium">Address</label>
+              <label className="block mb-2 text-gray-300 font-medium text-base">Address</label>
               <textarea
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
                 placeholder="Enter your address"
-                rows={3}
-                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                rows={2}
+                className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none text-base"
               />
             </motion.div>
 
@@ -278,7 +278,7 @@ export function RegistrationForm() {
               animate="visible"
               transition={{ delay: 0.3 }}
             >
-              <label className="block mb-2 text-gray-300 font-medium">
+              <label className="block mb-2 text-gray-300 font-medium text-base">
                 Class
                 <span className="text-red-400">*</span>
               </label>
@@ -286,7 +286,7 @@ export function RegistrationForm() {
                 name="class"
                 value={formData.class}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 bg-white/5 border rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none cursor-pointer ${
+                className={`w-full px-4 py-2 bg-white/5 border rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none cursor-pointer text-base ${
                   errors.class ? 'border-red-500' : 'border-white/20'
                 }`}
               >
@@ -310,7 +310,7 @@ export function RegistrationForm() {
               animate="visible"
               transition={{ delay: 0.35 }}
             >
-              <label className="block mb-2 text-gray-300 font-medium">
+              <label className="block mb-2 text-gray-300 font-medium text-base">
                 How did you hear about us?
                 <span className="text-red-400">*</span>
               </label>
@@ -318,7 +318,7 @@ export function RegistrationForm() {
                 name="source"
                 value={formData.source}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 bg-white/5 border rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none cursor-pointer ${
+                className={`w-full px-4 py-2 bg-white/5 border rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none cursor-pointer text-base ${
                   errors.source ? 'border-red-500' : 'border-white/20'
                 }`}
               >
@@ -351,12 +351,12 @@ export function RegistrationForm() {
               animate="visible"
               transition={{ delay: 0.4 }}
             >
-              <label className="block mb-2 text-gray-300 font-medium">Interest Level (Optional)</label>
+              <label className="block mb-2 text-gray-300 font-medium text-base">Interest Level (Optional)</label>
               <select
                 name="interest"
                 value={formData.interest}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none cursor-pointer"
+                className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none cursor-pointer text-base"
               >
                 <option value="" className="text-slate-900">
                   Select your interest level
@@ -379,12 +379,12 @@ export function RegistrationForm() {
               initial="hidden"
               animate="visible"
               transition={{ delay: 0.45 }}
-              className="pt-4"
+              className="pt-2 col-span-1 md:col-span-2"
             >
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full relative overflow-hidden group py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-cyan-500 hover:bg-cyan-600 text-white shadow-lg"
+                className="w-full relative overflow-hidden group py-3 px-6 rounded-xl font-bold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-cyan-500 hover:bg-cyan-600 text-white shadow-lg"
               >
                 {/* Button content */}
                 <div className="relative flex items-center justify-center gap-2 text-white">
@@ -403,7 +403,7 @@ export function RegistrationForm() {
                   ) : (
                     <>
                       <span>Register Now</span>
-                      <span className="text-xl">✨</span>
+                      <span className="text-lg">✨</span>
                     </>
                   )}
                 </div>
@@ -416,7 +416,7 @@ export function RegistrationForm() {
               initial="hidden"
               animate="visible"
               transition={{ delay: 0.5 }}
-              className="text-center text-gray-400 text-sm mt-6"
+              className="text-center text-gray-400 text-sm mt-3 col-span-1 md:col-span-2"
             >
               By registering, you agree to our terms and conditions
             </motion.p>
