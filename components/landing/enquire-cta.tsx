@@ -26,12 +26,12 @@ export function EnquireCTA() {
       >
         <h2 className="text-3xl md:text-4xl font-black mb-6">
           <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Ready to Join AI Udaan?
+            Have Any Questions?
           </span>
         </h2>
 
         <p className="text-gray-300 text-lg mb-10">
-          Take the first step towards mastering AI and unlock endless opportunities
+          Have any doubts or queries? Reach out to us and we'll be happy to help clarify everything.
         </p>
 
         <motion.button

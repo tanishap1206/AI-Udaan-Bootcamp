@@ -33,8 +33,8 @@ export default function Home() {
       <WhatYouWillBuild />
       <WhyThisBootcamp />
       <AIQuoteSection />
+      <FinalCTA />
       <AboutOrganizer />
-      <EnquireCTA />
       <ProgramStructure />
       <AISaasSession />
       <AIContentFilmmaking />
@@ -46,7 +46,7 @@ export default function Home() {
       <FutureProgram />
       <KeyMessage />
       <LimitedSeats />
-      <FinalCTA />
+      <EnquireCTA />
     </div>
   )
 }
