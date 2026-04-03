@@ -280,7 +280,7 @@ export function EnquiryForm() {
                 disabled={isLoading}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full py-3 px-6 rounded-xl font-semibold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] text-white"
+                className="w-full py-3 px-6 rounded-xl font-semibold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-cyan-500 hover:bg-cyan-600 hover:shadow-[0_0_30px_rgba(34,211,238,0.6)] text-white"
               >
                 <div className="relative flex items-center justify-center gap-2">
                   {isLoading ? (
