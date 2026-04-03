@@ -140,27 +140,27 @@ export function EnquiryForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center py-6 px-4">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="w-full max-w-2xl relative z-10"
+        className="w-full max-w-4xl relative z-10"
       >
         {/* Header */}
         <motion.div
           variants={fadeUpVariants}
           initial="hidden"
           animate="visible"
-          className="text-center mb-12"
+          className="text-center mb-8"
         >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold mb-3">
             <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Join AI Udaan Bootcamp 2026
             </span>
           </h1>
 
-          <p className="text-gray-400 text-lg">
+          <p className="text-gray-400 text-base">
             Fill your details and secure your seat in this exclusive program
           </p>
         </motion.div>
@@ -170,10 +170,10 @@ export function EnquiryForm() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-[0_0_40px_rgba(139,92,246,0.2)]"
+          className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-[0_0_40px_rgba(139,92,246,0.2)]"
         >
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {/* Full Name */}
             <motion.div
               custom={0}
@@ -181,21 +181,21 @@ export function EnquiryForm() {
               initial="hidden"
               animate="visible"
             >
-              <label className="block mb-3 text-lg font-medium text-gray-300">
+              <label className="block mb-2 text-base font-medium text-gray-300">
                 Full Name <span className="text-red-400">*</span>
               </label>
               <motion.input
-                whileHover={{ y: -2 }}
+                whileHover={{ y: -1 }}
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Enter your full name"
-                className={`w-full bg-white/10 border border-white/20 rounded-xl px-5 py-4 text-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 ${
+                className={`w-full bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-base text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 ${
                   errors.name ? 'border-red-500' : ''
                 }`}
               />
-              {errors.name && <p className="text-red-400 text-sm mt-2">{errors.name}</p>}
+              {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
             </motion.div>
 
             {/* Email */}
@@ -205,21 +205,21 @@ export function EnquiryForm() {
               initial="hidden"
               animate="visible"
             >
-              <label className="block mb-3 text-lg font-medium text-gray-300">
+              <label className="block mb-2 text-base font-medium text-gray-300">
                 Email <span className="text-red-400">*</span>
               </label>
               <motion.input
-                whileHover={{ y: -2 }}
+                whileHover={{ y: -1 }}
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
-                className={`w-full bg-white/10 border border-white/20 rounded-xl px-5 py-4 text-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 ${
+                className={`w-full bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-base text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 ${
                   errors.email ? 'border-red-500' : ''
                 }`}
               />
-              {errors.email && <p className="text-red-400 text-sm mt-2">{errors.email}</p>}
+              {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
             </motion.div>
 
             {/* Phone Number */}
@@ -229,21 +229,21 @@ export function EnquiryForm() {
               initial="hidden"
               animate="visible"
             >
-              <label className="block mb-3 text-lg font-medium text-gray-300">
+              <label className="block mb-2 text-base font-medium text-gray-300">
                 Mobile Number <span className="text-red-400">*</span>
               </label>
               <motion.input
-                whileHover={{ y: -2 }}
+                whileHover={{ y: -1 }}
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="Enter 10 digit phone number"
-                className={`w-full bg-white/10 border border-white/20 rounded-xl px-5 py-4 text-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 ${
+                className={`w-full bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-base text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 ${
                   errors.phone ? 'border-red-500' : ''
                 }`}
               />
-              {errors.phone && <p className="text-red-400 text-sm mt-2">{errors.phone}</p>}
+              {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
             </motion.div>
 
             {/* Message (Optional) */}
@@ -253,17 +253,17 @@ export function EnquiryForm() {
               initial="hidden"
               animate="visible"
             >
-              <label className="block mb-3 text-lg font-medium text-gray-300">
-                Message <span className="text-gray-500 text-sm">(Optional)</span>
+              <label className="block mb-2 text-base font-medium text-gray-300">
+                Message <span className="text-gray-500 text-xs">(Optional)</span>
               </label>
               <motion.textarea
-                whileHover={{ y: -2 }}
+                whileHover={{ y: -1 }}
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
                 placeholder="Tell us anything else you'd like to share..."
-                rows={4}
-                className="w-full bg-white/10 border border-white/20 rounded-xl px-5 py-4 text-lg text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 resize-none"
+                rows={3}
+                className="w-full bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-base text-white placeholder:text-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all duration-300 resize-none"
               />
             </motion.div>
 
@@ -273,14 +273,14 @@ export function EnquiryForm() {
               variants={inputContainerVariants}
               initial="hidden"
               animate="visible"
-              className="pt-4"
+              className="pt-2"
             >
               <motion.button
                 type="submit"
                 disabled={isLoading}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] text-white"
+                className="w-full py-3 px-6 rounded-xl font-semibold text-base transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] text-white"
               >
                 <div className="relative flex items-center justify-center gap-2">
                   {isLoading ? (
@@ -298,7 +298,7 @@ export function EnquiryForm() {
                   ) : (
                     <>
                       <span>Submit</span>
-                      <span className="text-xl group-hover:translate-x-1 transition-transform">→</span>
+                      <span className="text-lg group-hover:translate-x-1 transition-transform">→</span>
                     </>
                   )}
                 </div>
@@ -311,7 +311,7 @@ export function EnquiryForm() {
               variants={inputContainerVariants}
               initial="hidden"
               animate="visible"
-              className="text-center text-gray-400 text-sm"
+              className="text-center text-gray-400 text-xs"
             >
               Your data is safe with us. We'll never spam you.
             </motion.p>
