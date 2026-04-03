@@ -15,12 +15,9 @@ export async function POST(request: NextRequest) {
     
     if (body.type === 'simple' || (body.studentType === undefined && body.phone !== undefined)) {
       return handleSimpleEnquiry(body)
-    } else if (body.studentType !== undefined) {
-      // Old premium form
-      return handlePremiumEnquiry(body)
     } else {
-      // Old contact form
-      return handleContactForm(body)
+      // Old premium form or contact form - treat as simple enquiry
+      return handleSimpleEnquiry(body)
     }
   } catch (error) {
     console.error('Enquiry API error:', error)
@@ -29,66 +26,6 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
-}
-
-async function handleContactForm(body: any) {
-  const { name, email, mobile, message, bootcamp } = body
-
-  if (!name || !email || !mobile || !message) {
-    return NextResponse.json(
-      { message: 'Missing required fields' },
-      { status: 400 }
-    )
-  }
-
-  // Validate email format
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!emailRegex.test(email)) {
-    return NextResponse.json(
-      { message: 'Invalid email format' },
-      { status: 400 }
-    )
-  }
-
-  // Validate mobile (10 digits)
-  const mobileDigits = mobile.replace(/\D/g, '')
-  if (mobileDigits.length !== 10) {
-    return NextResponse.json(
-      { message: 'Mobile must be 10 digits' },
-      { status: 400 }
-    )
-  }
-
-  // Send to Google Sheets with enquiry data
-  const googleSheetResult = await sendToGoogleSheets({
-    name,
-    email,
-    mobile: mobileDigits,
-    address: `${message}`,
-    class: bootcamp || 'General Enquiry',
-    source: 'Contact Form',
-    interest: 'Enquiry',
-    date: new Date().toLocaleString('en-IN'),
-    type: 'enquiry' as const,
-  })
-
-  if (!googleSheetResult) {
-    console.warn('Google Sheets send failed, but continuing')
-  }
-
-  return NextResponse.json(
-    {
-      message: 'Enquiry submitted successfully ✅',
-      data: {
-        name,
-        email,
-        mobile: mobileDigits,
-        message,
-        bootcamp: bootcamp || 'General Enquiry',
-      },
-    },
-    { status: 201 }
-  )
 }
 
 async function handleSimpleEnquiry(body: any) {
