@@ -41,10 +41,10 @@ export function EnquireCTA() {
           className="relative inline-block"
         >
           {/* Glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-300 animate-pulse" />
+          <div className="absolute inset-0 bg-cyan-500 rounded-full blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-300 animate-pulse" />
 
           {/* Button */}
-          <div className="relative px-10 py-4 rounded-full font-bold text-lg text-white bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:shadow-2xl transition-all duration-300 flex items-center gap-2 group">
+          <div className="relative px-10 py-4 rounded-full font-bold text-lg text-white bg-cyan-500 hover:bg-cyan-600 hover:shadow-2xl transition-all duration-300 flex items-center gap-2 group">
             Enquire Now
             <span className="text-xl group-hover:translate-x-1 transition-transform">→</span>
           </div>
