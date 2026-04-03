@@ -1,11 +1,12 @@
 'use client'
 
+import { Suspense } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { fadeUpVariants } from '@/lib/animationVariants'
 import { useSearchParams } from 'next/navigation'
 
-export default function SuccessPage() {
+function SuccessContent() {
   const searchParams = useSearchParams()
   const name = searchParams.get('name') || 'Learner'
   const email = searchParams.get('email') || ''
@@ -236,5 +237,17 @@ export default function SuccessPage() {
         />
       </motion.div>
     </div>
+  )
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
+        <div className="text-white text-2xl">Loading...</div>
+      </div>
+    }>
+      <SuccessContent />
+    </Suspense>
   )
 }
