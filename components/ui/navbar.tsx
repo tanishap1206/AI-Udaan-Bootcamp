@@ -43,7 +43,7 @@ export function Navbar() {
           {/* CTA right */}
           <div className='hidden md:block'>
             <Link
-              href='/contact'
+              href='/enquire'
               className='inline-flex rounded-full bg-cyan-500 hover:bg-cyan-600 px-8 py-3 text-lg font-bold text-white shadow-lg transition'
             >
               Enquire Now
@@ -79,7 +79,7 @@ export function Navbar() {
               Contact
             </Link>
             <Link
-              href='#contact'
+              href='/enquire'
               className='mt-4 inline-flex rounded-full bg-cyan-500 hover:bg-cyan-600 px-8 py-3 text-lg font-bold text-white shadow-lg transition'
             >
               Enquire Now
