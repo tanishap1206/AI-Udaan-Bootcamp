@@ -27,7 +27,7 @@ function doPost(e) {
       if (dataType === 'enquiry') {
         sheet.appendRow(['Timestamp', 'Name', 'Mobile', 'Email', 'Message', 'Bootcamp', 'Source', 'Date']);
       } else {
-        sheet.appendRow(['Timestamp', 'Name', 'Mobile', 'Email', 'Address', 'Class', 'Source', 'Interest', 'Date']);
+        sheet.appendRow(['Timestamp', 'Name', 'Mobile', 'Email', 'Address', 'Class', 'AI Domain', 'Source', 'Interest', 'Date']);
       }
     }
     
@@ -51,6 +51,7 @@ function doPost(e) {
         payload.email || '',
         payload.address || '',
         payload.class || '',
+        payload.aiDomain || '',
         payload.source || '',
         payload.interest || '',
         payload.date || ''

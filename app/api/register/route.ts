@@ -15,7 +15,17 @@ function validateMobile(mobile: string): boolean {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, mobile, email, address, class: studentClass, source, interest } = body
+    const {
+      name,
+      mobile,
+      email,
+      address,
+      class: studentClass,
+      aiDomain,
+      otherAiDomain,
+      source,
+      interest,
+    } = body
 
     // Validation
     if (!name || !name.trim()) {
@@ -46,6 +56,20 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    if (!aiDomain) {
+      return NextResponse.json(
+        { message: 'Please select a domain to explore using AI' },
+        { status: 400 }
+      )
+    }
+
+    if (aiDomain === 'Other (Please Specify)' && (!otherAiDomain || !otherAiDomain.trim())) {
+      return NextResponse.json(
+        { message: 'Please specify your domain of interest' },
+        { status: 400 }
+      )
+    }
+
     if (!source) {
       return NextResponse.json(
         { message: 'Please specify how you heard about us' },
@@ -62,12 +86,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Prepare data
+    // Use custom value if "Other" is selected, otherwise use selected domain
+    const finalAiDomain = aiDomain === 'Other (Please Specify)' ? otherAiDomain?.trim() : aiDomain
+    
     const registrationData = {
       name: name.trim(),
       mobile: mobile.replace(/\D/g, ''),
       email: email.trim(),
       address: address?.trim() || '',
       class: studentClass,
+      aiDomain: finalAiDomain,
       source: source,
       interest: interest || '',
       date: new Date().toLocaleString('en-IN'),

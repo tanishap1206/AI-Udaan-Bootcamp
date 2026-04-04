@@ -11,6 +11,8 @@ interface FormData {
   email: string
   address: string
   class: string
+  aiDomain: string
+  otherAiDomain: string
   source: string
   interest: string
 }
@@ -19,7 +21,12 @@ interface FormErrors {
   [key: string]: string
 }
 
-export function RegistrationForm() {
+interface RegistrationFormProps {
+  onSuccess?: () => void
+  isModal?: boolean
+}
+
+export function RegistrationForm({ onSuccess, isModal = false }: RegistrationFormProps = {}) {
   const { addToast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<FormErrors>({})
@@ -29,9 +36,21 @@ export function RegistrationForm() {
     email: '',
     address: '',
     class: '',
+    aiDomain: '',
+    otherAiDomain: '',
     source: '',
     interest: '',
   })
+  const [otpSent, setOtpSent] = useState(false)
+  const [emailVerified, setEmailVerified] = useState(false)
+  const [otp, setOtp] = useState('')
+  const [otpLoading, setOtpLoading] = useState(false)
+  const [otpError, setOtpError] = useState('')
+
+  const labelClass = 'block mb-2 text-sm text-gray-400 font-medium'
+  const controlClass =
+    'w-full h-12 px-4 bg-white/10 border border-white/20 rounded-xl backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base'
+  const controlErrorClass = 'border-red-500'
 
   // Validation functions
   const validateEmail = (email: string): boolean => {
@@ -43,17 +62,87 @@ export function RegistrationForm() {
     return /^\d{10}$/.test(mobile.replace(/\D/g, ''))
   }
 
+  const sendOTP = async () => {
+    setOtpError('')
+    
+    if (!formData.email.trim()) {
+      setOtpError('Email is required')
+      return
+    }
+
+    if (!validateEmail(formData.email)) {
+      setOtpError('Invalid email format')
+      return
+    }
+
+    setOtpLoading(true)
+    try {
+      const response = await fetch('/api/auth/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setOtpError(data.message || 'Failed to send OTP')
+        addToast(data.message || 'Failed to send OTP', 'error', 3000)
+        return
+      }
+
+      setOtpSent(true)
+      addToast('OTP sent to your email! Check your inbox.', 'success', 3000)
+    } catch (error) {
+      console.error('Send OTP error:', error)
+      setOtpError('Failed to send OTP. Please try again.')
+      addToast('Failed to send OTP', 'error', 3000)
+    } finally {
+      setOtpLoading(false)
+    }
+  }
+
+  const verifyOTP = async () => {
+    setOtpError('')
+
+    if (!otp.trim()) {
+      setOtpError('Please enter OTP')
+      return
+    }
+
+    setOtpLoading(true)
+    try {
+      const response = await fetch('/api/auth/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email, otp }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setOtpError(data.message || 'Invalid OTP')
+        addToast(data.message || 'Invalid OTP', 'error', 3000)
+        return
+      }
+
+      setEmailVerified(true)
+      setOtp('')
+      addToast('Email verified successfully!', 'success', 3000)
+    } catch (error) {
+      console.error('Verify OTP error:', error)
+      setOtpError('Failed to verify OTP. Please try again.')
+      addToast('Failed to verify OTP', 'error', 3000)
+    } finally {
+      setOtpLoading(false)
+    }
+  }
+
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {}
 
     if (!formData.name.trim()) {
       newErrors.name = 'Full Name is required'
-    }
-
-    if (!formData.mobile.trim()) {
-      newErrors.mobile = 'Mobile Number is required'
-    } else if (!validateMobile(formData.mobile)) {
-      newErrors.mobile = 'Mobile must be 10 digits'
     }
 
     if (!formData.email.trim()) {
@@ -62,8 +151,26 @@ export function RegistrationForm() {
       newErrors.email = 'Invalid email format'
     }
 
+    if (!emailVerified) {
+      newErrors.email = 'Please verify your email with OTP'
+    }
+
+    if (!formData.mobile.trim()) {
+      newErrors.mobile = 'Mobile Number is required'
+    } else if (!validateMobile(formData.mobile)) {
+      newErrors.mobile = 'Mobile must be 10 digits'
+    }
+
     if (!formData.class) {
       newErrors.class = 'Please select your class'
+    }
+
+    if (!formData.aiDomain) {
+      newErrors.aiDomain = 'Please select a domain to explore using AI'
+    }
+
+    if (formData.aiDomain === 'Other (Please Specify)' && !formData.otherAiDomain.trim()) {
+      newErrors.otherAiDomain = 'Please specify your domain'
     }
 
     if (!formData.source) {
@@ -76,10 +183,32 @@ export function RegistrationForm() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
+
+    if (name === 'email') {
+      setEmailVerified(false)
+      setOtpSent(false)
+      setOtp('')
+      setOtpError('')
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }))
+
+    if (name === 'aiDomain' && value !== 'Other (Please Specify)') {
+      setFormData((prev) => ({
+        ...prev,
+        otherAiDomain: '',
+      }))
+      if (errors.otherAiDomain) {
+        setErrors((prev) => ({
+          ...prev,
+          otherAiDomain: '',
+        }))
+      }
+    }
+
     // Clear error for this field when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({
@@ -118,6 +247,11 @@ export function RegistrationForm() {
       // Success
       addToast('Registration सफल 🎉', 'success', 4000)
 
+      // Call onSuccess callback if provided
+      if (onSuccess) {
+        onSuccess()
+      }
+
       // Reset form
       setFormData({
         name: '',
@@ -125,6 +259,8 @@ export function RegistrationForm() {
         email: '',
         address: '',
         class: '',
+        aiDomain: '',
+        otherAiDomain: '',
         source: '',
         interest: '',
       })
@@ -147,40 +283,43 @@ export function RegistrationForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-8 px-4">
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-purple-500/5" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
-      </div>
+    <div className={isModal ? "p-6" : "min-h-screen flex items-center justify-center py-4 px-4"}>
+      {/* Animated gradient background - only show when not in modal */}
+      {!isModal && (
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-purple-500/5" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
+        </div>
+      )}
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="w-full max-w-4xl relative z-10"
+        className={isModal ? "w-full relative" : "w-full max-w-5xl relative z-10"}
       >
         {/* Glass Card */}
-        <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 md:p-8 shadow-2xl shadow-cyan-500/10">
+        <div className={isModal ? "p-6" : "bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-[0_0_40px_rgba(34,211,238,0.18)]"}>
           {/* Header */}
           <motion.div
             variants={fadeUpVariants}
             initial="hidden"
             animate="visible"
-            className="mb-4 text-center"
+            className="mb-5 text-center"
           >
-            <h1 className="text-4xl md:text-5xl font-black mb-2">
+            <h1 className="text-3xl font-bold mb-1">
               <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Register Now
               </span>
             </h1>
-            <p className="text-gray-300 text-lg">Join AI Udaan Bootcamp 2026</p>
+            <p className="text-gray-300 text-base">Join AI Udaan Bootcamp 2026</p>
             <div className="h-1 w-20 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full mx-auto mt-2" />
           </motion.div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4 grid grid-cols-1 md:grid-cols-2 md:gap-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-4">
             {/* Full Name */}
             <motion.div
               variants={fadeUpVariants}
@@ -188,7 +327,7 @@ export function RegistrationForm() {
               animate="visible"
               transition={{ delay: 0.1 }}
             >
-              <label className="block mb-2 text-gray-300 font-medium text-base">
+              <label className={labelClass}>
                 Full Name
                 <span className="text-red-400">*</span>
               </label>
@@ -198,21 +337,97 @@ export function RegistrationForm() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Enter your full name"
-                className={`w-full px-4 py-2 bg-white/5 border rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base ${
-                  errors.name ? 'border-red-500' : 'border-white/20'
+                className={`${controlClass} ${
+                  errors.name ? controlErrorClass : ''
                 }`}
               />
               {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name}</p>}
             </motion.div>
 
-            {/* Mobile Number */}
+            {/* Email */}
             <motion.div
               variants={fadeUpVariants}
               initial="hidden"
               animate="visible"
               transition={{ delay: 0.15 }}
             >
-              <label className="block mb-2 text-gray-300 font-medium text-base">
+              <label className={labelClass}>
+                Email ID
+                <span className="text-red-400">*</span>
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  disabled={emailVerified}
+                  placeholder="Enter your email"
+                  className={`flex-1 ${controlClass} disabled:opacity-50 ${
+                    errors.email ? controlErrorClass : ''
+                  }`}
+                />
+                {!emailVerified && (
+                  <button
+                    type="button"
+                    onClick={sendOTP}
+                    disabled={otpLoading || !formData.email.trim()}
+                    className="h-12 px-4 bg-cyan-500 hover:bg-cyan-600 disabled:bg-gray-500 text-white font-medium rounded-xl transition-all duration-300 whitespace-nowrap"
+                  >
+                    {otpLoading ? 'Sending...' : 'Send OTP'}
+                  </button>
+                )}
+                {emailVerified && (
+                  <div className="h-12 px-4 bg-green-500/20 border border-green-500 text-green-400 font-medium rounded-xl whitespace-nowrap flex items-center gap-2">
+                    ✓ Verified
+                  </div>
+                )}
+              </div>
+              {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
+              {otpError && <p className="text-red-400 text-sm mt-1">{otpError}</p>}
+            </motion.div>
+
+            {/* OTP Verification */}
+            {otpSent && !emailVerified && (
+              <motion.div
+                variants={fadeUpVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: 0.16 }}
+              >
+                <label className={labelClass}>
+                  OTP Code
+                  <span className="text-red-400">*</span>
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                    placeholder="Enter 6-digit OTP"
+                    maxLength={6}
+                    className={`flex-1 ${controlClass}`}
+                  />
+                  <button
+                    type="button"
+                    onClick={verifyOTP}
+                    disabled={otpLoading || !otp.trim()}
+                    className="h-12 px-4 bg-green-600 hover:bg-green-700 disabled:bg-gray-500 text-white font-medium rounded-xl transition-all duration-300 whitespace-nowrap"
+                  >
+                    {otpLoading ? 'Verifying...' : 'Verify'}
+                  </button>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Mobile Number */}
+            <motion.div
+              variants={fadeUpVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.2 }}
+            >
+              <label className={labelClass}>
                 Mobile Number
                 <span className="text-red-400">*</span>
               </label>
@@ -222,35 +437,11 @@ export function RegistrationForm() {
                 value={formData.mobile}
                 onChange={handleChange}
                 placeholder="Enter 10 digit mobile number"
-                className={`w-full px-4 py-2 bg-white/5 border rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base ${
-                  errors.mobile ? 'border-red-500' : 'border-white/20'
+                className={`${controlClass} ${
+                  errors.mobile ? controlErrorClass : ''
                 }`}
               />
               {errors.mobile && <p className="text-red-400 text-sm mt-1">{errors.mobile}</p>}
-            </motion.div>
-
-            {/* Email */}
-            <motion.div
-              variants={fadeUpVariants}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: 0.2 }}
-            >
-              <label className="block mb-2 text-gray-300 font-medium text-base">
-                Email ID
-                <span className="text-red-400">*</span>
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Enter your email"
-                className={`w-full px-4 py-2 bg-white/5 border rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base ${
-                  errors.email ? 'border-red-500' : 'border-white/20'
-                }`}
-              />
-              {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
             </motion.div>
 
             {/* Address */}
@@ -260,14 +451,14 @@ export function RegistrationForm() {
               animate="visible"
               transition={{ delay: 0.25 }}
             >
-              <label className="block mb-2 text-gray-300 font-medium text-base">Address</label>
-              <textarea
+              <label className={labelClass}>Address</label>
+              <input
+                type="text"
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
                 placeholder="Enter your address"
-                rows={2}
-                className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none text-base"
+                className={controlClass}
               />
             </motion.div>
 
@@ -278,7 +469,7 @@ export function RegistrationForm() {
               animate="visible"
               transition={{ delay: 0.3 }}
             >
-              <label className="block mb-2 text-gray-300 font-medium text-base">
+              <label className={labelClass}>
                 Class
                 <span className="text-red-400">*</span>
               </label>
@@ -286,8 +477,8 @@ export function RegistrationForm() {
                 name="class"
                 value={formData.class}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 bg-white/5 border rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none cursor-pointer text-base ${
-                  errors.class ? 'border-red-500' : 'border-white/20'
+                className={`${controlClass} appearance-none cursor-pointer ${
+                  errors.class ? controlErrorClass : ''
                 }`}
               >
                 <option value="" className="text-slate-900">
@@ -299,18 +490,92 @@ export function RegistrationForm() {
                 <option value="12th Pass" className="text-slate-900">
                   12th Pass
                 </option>
+                <option value="Graduate" className="text-slate-900">
+                  Graduate
+                </option>
+                <option value="Post Graduate" className="text-slate-900">
+                  Post Graduate
+                </option>
+                <option value="Others" className="text-slate-900">
+                  Others
+                </option>
               </select>
               {errors.class && <p className="text-red-400 text-sm mt-1">{errors.class}</p>}
             </motion.div>
+
+            {/* Domain Exploration Dropdown */}
+            <motion.div
+              variants={fadeUpVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.34 }}
+            >
+              <label className={labelClass}>
+                Select Domain You Want to Explore Using AI
+                <span className="text-red-400">*</span>
+              </label>
+              <select
+                name="aiDomain"
+                value={formData.aiDomain}
+                onChange={handleChange}
+                className={`${controlClass} appearance-none cursor-pointer ${
+                  errors.aiDomain ? controlErrorClass : ''
+                }`}
+              >
+                <option value="" className="text-slate-900">
+                  Select domain
+                </option>
+                <option value="AI Filmmaking & Creative Design" className="text-slate-900">
+                  AI Filmmaking & Creative Design
+                </option>
+                <option value="SaaS Web Application Development" className="text-slate-900">
+                  SaaS Web Application Development
+                </option>
+                <option value="AI-Powered Digital Marketing" className="text-slate-900">
+                  AI-Powered Digital Marketing
+                </option>
+                <option value="Other (Please Specify)" className="text-slate-900">
+                  Other (Please Specify)
+                </option>
+              </select>
+              {errors.aiDomain && <p className="text-red-400 text-sm mt-1">{errors.aiDomain}</p>}
+            </motion.div>
+
+            {/* Other Domain Input (Conditional) */}
+            {formData.aiDomain === 'Other (Please Specify)' && (
+              <motion.div
+                variants={fadeUpVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: 0.35 }}
+                className="overflow-hidden"
+              >
+                <label className={labelClass}>
+                  Please Specify Your Domain
+                  <span className="text-red-400">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="otherAiDomain"
+                  value={formData.otherAiDomain}
+                  onChange={handleChange}
+                  placeholder="Enter your domain of interest"
+                  className={`${controlClass} ${
+                    errors.otherAiDomain ? controlErrorClass : ''
+                  }`}
+                />
+                {errors.otherAiDomain && <p className="text-red-400 text-sm mt-1">{errors.otherAiDomain}</p>}
+              </motion.div>
+            )}
 
             {/* How did you hear about us */}
             <motion.div
               variants={fadeUpVariants}
               initial="hidden"
               animate="visible"
-              transition={{ delay: 0.35 }}
+              transition={{ delay: 0.36 }}
             >
-              <label className="block mb-2 text-gray-300 font-medium text-base">
+              <label className={labelClass}>
                 How did you hear about us?
                 <span className="text-red-400">*</span>
               </label>
@@ -318,12 +583,18 @@ export function RegistrationForm() {
                 name="source"
                 value={formData.source}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 bg-white/5 border rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none cursor-pointer text-base ${
-                  errors.source ? 'border-red-500' : 'border-white/20'
+                className={`${controlClass} appearance-none cursor-pointer ${
+                  errors.source ? controlErrorClass : ''
                 }`}
               >
                 <option value="" className="text-slate-900">
                   Select source
+                </option>
+                <option value="Facebook" className="text-slate-900">
+                  Facebook
+                </option>
+                <option value="Google" className="text-slate-900">
+                  Google
                 </option>
                 <option value="Instagram" className="text-slate-900">
                   Instagram
@@ -349,14 +620,14 @@ export function RegistrationForm() {
               variants={fadeUpVariants}
               initial="hidden"
               animate="visible"
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.37 }}
             >
-              <label className="block mb-2 text-gray-300 font-medium text-base">Interest Level (Optional)</label>
+              <label className={labelClass}>Interest Level (Optional)</label>
               <select
                 name="interest"
                 value={formData.interest}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none cursor-pointer text-base"
+                className={`${controlClass} appearance-none cursor-pointer`}
               >
                 <option value="" className="text-slate-900">
                   Select your interest level
@@ -372,19 +643,20 @@ export function RegistrationForm() {
                 </option>
               </select>
             </motion.div>
+            </div>
 
             {/* Submit Button */}
             <motion.div
               variants={fadeUpVariants}
               initial="hidden"
               animate="visible"
-              transition={{ delay: 0.45 }}
-              className="pt-2 col-span-1 md:col-span-2"
+              transition={{ delay: 0.4 }}
+              className="pt-1"
             >
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full relative overflow-hidden group py-3 px-6 rounded-xl font-bold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-cyan-500 hover:bg-cyan-600 text-white shadow-lg"
+                className="w-full relative overflow-hidden group h-12 px-6 rounded-xl font-bold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-cyan-500 hover:bg-cyan-600 text-white shadow-lg"
               >
                 {/* Button content */}
                 <div className="relative flex items-center justify-center gap-2 text-white">
@@ -415,8 +687,8 @@ export function RegistrationForm() {
               variants={fadeUpVariants}
               initial="hidden"
               animate="visible"
-              transition={{ delay: 0.5 }}
-              className="text-center text-gray-400 text-sm mt-3 col-span-1 md:col-span-2"
+              transition={{ delay: 0.42 }}
+              className="text-center text-gray-400 text-xs mt-1"
             >
               By registering, you agree to our terms and conditions
             </motion.p>

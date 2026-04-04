@@ -100,7 +100,7 @@ function doPost(e) {
 
 /**
  * Handle Registration Data
- * Sheet columns: Timestamp, Name, Mobile, Email, Address, Class, Source, Interest, RegistrationDate
+ * Sheet columns: Timestamp, Name, Mobile, Email, Address, Class, Domain, Custom Domain, Source, Interest, RegistrationDate
  */
 function handleRegistration(sheet, payload) {
   // Add headers if sheet is empty
@@ -112,6 +112,8 @@ function handleRegistration(sheet, payload) {
       'Email',
       'Address',
       'Class/Bootcamp',
+      'Domain',
+      'Custom Domain',
       'Source',
       'Interest',
       'Registration Date'
@@ -129,6 +131,8 @@ function handleRegistration(sheet, payload) {
     payload.email || '',
     payload.address || '',
     payload.class || '',
+    payload.domain || '',
+    payload.customDomain || '',
     payload.source || '',
     payload.interest || '',
     payload.date || ''

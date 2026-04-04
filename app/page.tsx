@@ -17,10 +17,14 @@ import { LimitedSeats } from '@/components/landing/limited-seats'
 import { FinalCTA } from '@/components/ui/CTABanner'
 import { AIQuoteSection } from '@/components/landing/ai-quote-section'
 import { GradientBlobs } from '@/components/landing/gradient-blobs'
+import { RegistrationModal } from '@/components/ui/RegistrationModal'
 
 export default function Home() {
   return (
     <div className='relative min-h-screen bg-slate-950 text-white overflow-hidden'>
+      {/* Auto-popup Registration Modal */}
+      <RegistrationModal />
+
       {/* Animated background */}
       <GradientBlobs />
       

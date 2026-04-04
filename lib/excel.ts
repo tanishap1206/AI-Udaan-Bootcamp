@@ -8,6 +8,7 @@ export interface RegistrationData {
   email: string
   address: string
   class: string
+  aiDomain: string
   source: string
   interest: string
   date?: string
@@ -44,7 +45,7 @@ function ensurePublicDirectory() {
  * Get the headers for the registration sheet
  */
 function getHeaders(): string[] {
-  return ['Name', 'Mobile', 'Email', 'Address', 'Class', 'Source', 'Interest', 'Date']
+  return ['Name', 'Mobile', 'Email', 'Address', 'Class', 'AI Domain', 'Source', 'Interest', 'Date']
 }
 
 /**
@@ -52,7 +53,17 @@ function getHeaders(): string[] {
  */
 function dataToRow(data: RegistrationData): (string | undefined)[] {
   const date = data.date || new Date().toLocaleString('en-IN')
-  return [data.name, data.mobile, data.email, data.address, data.class, data.source, data.interest, date]
+  return [
+    data.name,
+    data.mobile,
+    data.email,
+    data.address,
+    data.class,
+    data.aiDomain,
+    data.source,
+    data.interest,
+    date,
+  ]
 }
 
 /**

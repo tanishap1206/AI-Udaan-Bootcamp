@@ -3,11 +3,9 @@
 import { motion } from 'framer-motion'
 import { staggerContainerVariants, staggerItemVariants } from '@/lib/animationVariants'
 
-const services = [
-  'AI & Machine Learning Solutions',
-  'ERP & Business Systems',
-  'Data Analytics',
-  'Automation Platforms'
+const partners = [
+  { name: 'Nighwan Technology', description: 'Industry leaders in AI solutions and automation' },
+  { name: 'BR Production', description: 'Expert in digital content and media production' }
 ]
 
 export function AboutOrganizer() {
@@ -28,27 +26,34 @@ export function AboutOrganizer() {
                 Our Organizer
               </span>
             </h2>
-            <h3 className='text-2xl font-bold text-cyan-300'>Nighwan Technology Pvt. Ltd.</h3>
-            <p className='text-white/80 text-lg'>Industry leaders in AI solutions, ERP, analytics and automation platforms across India.</p>
+            <h3 className='text-3xl font-bold text-white'>Buddha Institute of Technology</h3>
+            <p className='text-white/80 text-lg'>Empowering the next generation of AI leaders with industry-focused education and practical skills.</p>
             
-            <motion.div
-              variants={staggerContainerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className='space-y-3'
-            >
-              {services.map((service) => (
-                <motion.div
-                  key={service}
-                  variants={staggerItemVariants}
-                  className='flex items-center gap-3 text-white/90'
-                >
-                  <div className='w-2 h-2 rounded-full bg-gradient-to-r from-cyan-400 to-purple-400' />
-                  {service}
-                </motion.div>
-              ))}
-            </motion.div>
+            {/* Collaboration Section */}
+            <div className='space-y-3 pt-4 border-t border-white/20'>
+              <p className='text-cyan-300 font-semibold text-lg'>In Collaboration With:</p>
+              <motion.div
+                variants={staggerContainerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className='space-y-2'
+              >
+                {partners.map((partner) => (
+                  <motion.div
+                    key={partner.name}
+                    variants={staggerItemVariants}
+                    className='flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10'
+                  >
+                    <div className='w-2 h-2 rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 mt-1.5 flex-shrink-0' />
+                    <div>
+                      <p className='text-white font-semibold'>{partner.name}</p>
+                      <p className='text-white/60 text-sm'>{partner.description}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}

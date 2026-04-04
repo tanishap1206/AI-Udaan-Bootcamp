@@ -4,6 +4,7 @@ export interface RegistrationPayload {
   email: string
   address: string
   class: string
+  aiDomain?: string
   source: string
   interest: string
   date: string
@@ -43,6 +44,7 @@ export async function sendToGoogleSheets(data: RegistrationPayload): Promise<boo
         email: data.email,
         address: data.address,
         class: data.class,
+        aiDomain: data.aiDomain || '',
         source: data.source,
         interest: data.interest,
         date: data.date,

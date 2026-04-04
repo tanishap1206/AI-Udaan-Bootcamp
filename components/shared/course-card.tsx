@@ -58,11 +58,11 @@ export const CourseCard = ({
           boxShadow: '0 8px 32px 0 rgba(0,0,0,0.18)',
         }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-        className="h-full flex flex-col rounded-2xl bg-white shadow-md hover:shadow-2xl transition-shadow duration-300"
+        className="h-full flex flex-col rounded-2xl bg-white shadow-md hover:shadow-2xl transition-shadow duration-300 overflow-hidden"
       >
         <Link href={`/courses/${id}`} className="flex-1 flex flex-col">
           {/* Course Image */}
-          <div className='relative mb-5 h-48 w-full overflow-hidden rounded-xl border border-slate-100 bg-gradient-to-r from-pink-50 to-blue-50'>
+          <div className='relative h-48 w-full overflow-hidden bg-gradient-to-r from-pink-50 to-blue-50'>
             <div className='absolute left-3 top-3 z-10 rounded-full border border-slate-200 bg-white/95 px-3 py-1 text-xs font-medium text-slate-600'>
               {level}
             </div>
@@ -82,48 +82,50 @@ export const CourseCard = ({
           </div>
 
           {/* Course Info */}
-          <h3 className='mb-2 line-clamp-2 text-lg font-semibold text-slate-900'>
-            {title}
-          </h3>
-          <p className='mb-5 line-clamp-2 text-sm text-slate-500'>
-            {description}
-          </p>
+          <div className='flex-1 flex flex-col px-5 pt-5 pb-2'>
+            <h3 className='mb-2 line-clamp-2 text-lg font-semibold text-slate-900'>
+              {title}
+            </h3>
+            <p className='mb-4 line-clamp-2 text-sm text-slate-500 flex-1'>
+              {description}
+            </p>
 
-          {/* Instructor & Level */}
-          <div className='mb-5 flex items-center justify-between border-b border-slate-100 pb-4'>
-            <div>
-              <p className='text-xs text-slate-400'>Instructor</p>
-              <p className='text-sm font-medium text-slate-700'>{instructor}</p>
+            {/* Instructor & Level */}
+            <div className='mb-4 flex items-center justify-between border-b border-slate-100 pb-4'>
+              <div>
+                <p className='text-xs text-slate-400'>Instructor</p>
+                <p className='text-sm font-medium text-slate-700'>{instructor}</p>
+              </div>
+              <div className='text-right'>
+                <p className='text-xs text-slate-400'>Duration</p>
+                <p className='text-sm font-medium text-slate-700'>{duration}</p>
+              </div>
             </div>
-            <div className='text-right'>
-              <p className='text-xs text-slate-400'>Duration</p>
-              <p className='text-sm font-medium text-slate-700'>{duration}</p>
-            </div>
-          </div>
 
-          {/* Stats */}
-          <div className='mb-4 flex items-center justify-between'>
-            <div className='flex items-center gap-1'>
-              <span className='text-yellow-400'>⭐</span>
-              <span className='text-sm text-slate-700'>{rating}</span>
-              <span className='text-xs text-slate-400'>({students})</span>
+            {/* Stats */}
+            <div className='flex items-center justify-between'>
+              <div className='flex items-center gap-1'>
+                <span className='text-yellow-400'>⭐</span>
+                <span className='text-sm text-slate-700'>{rating}</span>
+                <span className='text-xs text-slate-400'>({students})</span>
+              </div>
             </div>
           </div>
         </Link>
 
         {/* Price & CTA */}
-        <div className='mt-auto flex items-center justify-between border-t border-slate-100 pt-4'>
-          <div>
+        <div className='mt-auto flex items-center justify-between border-t border-slate-100 px-5 py-4 gap-4'>
+          <div className='flex-shrink-0'>
             {price > 0 ? (
               <>
                 <p className='text-xs text-slate-400'>Price</p>
-                <p className='text-lg font-bold text-slate-900'>${price}</p>
+                <p className='text-xl font-bold text-slate-900'>₹{price}</p>
               </>
             ) : (
-              <p className='text-lg font-bold text-green-400'>Free</p>
+              <p className='text-lg font-bold text-green-500'>Free</p>
             )}
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap justify-end">
             <Button size='sm' variant='primary'>
               Enroll
             </Button>

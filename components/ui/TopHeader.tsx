@@ -22,21 +22,15 @@ export function TopHeader() {
         </div>
 
         {/* Navigation */}
-        <div className='hidden items-center gap-8 md:flex'>
-          <Link href='#home' className='text-xl font-bold text-white transition hover:text-cyan-300'>
+        <div className='hidden items-center gap-12 md:flex'>
+          <Link href='/' className='text-xl font-bold text-white transition hover:text-cyan-300 whitespace-nowrap'>
             Home
           </Link>
-          <Link href='#about' className='text-xl font-bold text-white transition hover:text-cyan-300'>
+          <Link href='/#about' className='text-xl font-bold text-white transition hover:text-cyan-300 whitespace-nowrap'>
             About
           </Link>
-          <Link href='#contact' className='text-xl font-bold text-white transition hover:text-cyan-300'>
+          <Link href='/#questions' className='text-xl font-bold text-white transition hover:text-cyan-300 whitespace-nowrap'>
             Contact
-          </Link>
-          <Link
-            href='/enquire'
-            className='inline-flex rounded-full bg-cyan-500 hover:bg-cyan-600 px-8 py-3 text-lg font-bold text-white shadow-lg transition'
-          >
-            Enquire Now
           </Link>
         </div>
       </div>

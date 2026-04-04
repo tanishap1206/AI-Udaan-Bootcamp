@@ -29,24 +29,14 @@ export function Navbar() {
 
           {/* Menu center */}
           <div className='absolute left-1/2 hidden -translate-x-1/2 items-center gap-10 md:flex'>
-            <Link href='#home' className='text-xl font-bold text-white transition hover:text-cyan-300'>
+            <Link href='/' className='text-xl font-bold text-white transition hover:text-cyan-300 whitespace-nowrap'>
               Home
             </Link>
-            <Link href='#contact' className='text-xl font-bold text-white transition hover:text-cyan-300'>
-              Contact
-            </Link>
-            <Link href='#about' className='text-xl font-bold text-white transition hover:text-cyan-300'>
+            <Link href='/#about' className='text-xl font-bold text-white transition hover:text-cyan-300 whitespace-nowrap'>
               About
             </Link>
-          </div>
-
-          {/* CTA right */}
-          <div className='hidden md:block'>
-            <Link
-              href='/enquire'
-              className='inline-flex rounded-full bg-cyan-500 hover:bg-cyan-600 px-8 py-3 text-lg font-bold text-white shadow-lg transition'
-            >
-              Enquire Now
+            <Link href='/#questions' className='text-xl font-bold text-white transition hover:text-cyan-300 whitespace-nowrap'>
+              Contact
             </Link>
           </div>
 
@@ -69,20 +59,14 @@ export function Navbar() {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
           >
-            <Link href='#home' className='block py-3 text-lg font-medium text-white hover:text-cyan-300'>
+            <Link href='/' className='block py-3 text-lg font-medium text-white hover:text-cyan-300'>
               Home
             </Link>
-            <Link href='#about' className='block py-3 text-lg font-medium text-white hover:text-cyan-300'>
+            <Link href='/#about' className='block py-3 text-lg font-medium text-white hover:text-cyan-300'>
               About
             </Link>
-            <Link href='#contact' className='block py-3 text-lg font-medium text-white hover:text-cyan-300'>
+            <Link href='/#questions' className='block py-3 text-lg font-medium text-white hover:text-cyan-300'>
               Contact
-            </Link>
-            <Link
-              href='/enquire'
-              className='mt-4 inline-flex rounded-full bg-cyan-500 hover:bg-cyan-600 px-8 py-3 text-lg font-bold text-white shadow-lg transition'
-            >
-              Enquire Now
             </Link>
           </motion.div>
         )}
