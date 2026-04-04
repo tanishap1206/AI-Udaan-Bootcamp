@@ -104,9 +104,9 @@ export function RegistrationModal() {
               duration: 0.4,
               ease: [0.23, 1, 0.82, 1], // Custom easing for smooth motion
             }}
-            className="fixed inset-0 z-50 flex items-center justify-center pointer-events-auto overflow-y-auto py-8"
+            className="fixed inset-0 z-50 flex items-center justify-center pointer-events-auto p-4"
           >
-            <div className="relative w-full max-w-5xl mx-auto px-4">
+            <div className="relative w-full max-w-5xl h-auto max-h-[90vh] overflow-y-auto">
               {/* Close Button */}
               <AnimatePresence>
                 {showCloseButton && (
@@ -133,7 +133,7 @@ export function RegistrationModal() {
                 initial={{ y: 20 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-2xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden"
+                className="bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-2xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden w-full"
               >
                 {/* Premium header accent */}
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500" />
