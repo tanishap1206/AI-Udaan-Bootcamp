@@ -94,7 +94,7 @@ export function RegistrationModal() {
             onClick={showCloseButton ? handleCloseModal : undefined}
           />
 
-          {/* Modal Wrapper - Properly centered */}
+          {/* Modal Wrapper - Centered with internal scroll */}
           <motion.div
             key="modal"
             initial={{ opacity: 0, scale: 0.95 }}
@@ -104,10 +104,10 @@ export function RegistrationModal() {
               duration: 0.4,
               ease: [0.23, 1, 0.82, 1],
             }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-hidden"
           >
-            {/* Modal Container - With bounded scrolling */}
-            <div className="w-full max-w-5xl max-h-[95vh] overflow-y-auto rounded-3xl">
+            {/* Modal Container - Full scrollable content */}
+            <div className="w-full max-w-5xl max-h-[90vh] overflow-y-auto relative mx-auto scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-transparent">
               {/* Close Button */}
               <AnimatePresence>
                 {showCloseButton && (
@@ -118,11 +118,11 @@ export function RegistrationModal() {
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.3 }}
                     onClick={handleCloseModal}
-                    className="fixed top-6 right-6 z-50 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/40 flex items-center justify-center transition-all duration-200 hover:scale-125 cursor-pointer"
+                    className="absolute top-4 right-4 z-50 w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/40 flex items-center justify-center transition-all duration-200 hover:scale-125 cursor-pointer"
                     aria-label="Close modal"
                     type="button"
                   >
-                    <span className="text-white text-xl font-bold">✕</span>
+                    <span className="text-white text-sm font-bold">✕</span>
                   </motion.button>
                 )}
               </AnimatePresence>
