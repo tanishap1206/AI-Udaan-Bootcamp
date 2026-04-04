@@ -94,7 +94,7 @@ export function RegistrationModal() {
             onClick={showCloseButton ? handleCloseModal : undefined}
           />
 
-          {/* Modal Wrapper - Allows full scroll with items-start */}
+          {/* Modal Wrapper - Centered with scroll support */}
           <motion.div
             key="modal"
             initial={{ opacity: 0, scale: 0.95 }}
@@ -104,10 +104,10 @@ export function RegistrationModal() {
               duration: 0.4,
               ease: [0.23, 1, 0.82, 1],
             }}
-            className="fixed inset-0 z-50 flex justify-center items-start p-4 overflow-y-auto"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-auto"
           >
-            {/* Modal Container - Full scrollable content */}
-            <div className="w-full max-w-5xl relative my-4">
+            {/* Modal Container - Responsive with natural scrolling */}
+            <div className="w-full max-w-5xl relative">
               {/* Close Button */}
               <AnimatePresence>
                 {showCloseButton && (
