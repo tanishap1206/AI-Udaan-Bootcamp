@@ -94,7 +94,7 @@ export function RegistrationModal() {
             onClick={showCloseButton ? handleCloseModal : undefined}
           />
 
-          {/* Modal Container */}
+          {/* Modal Wrapper - Fixed positioning with flex centering */}
           <motion.div
             key="modal"
             initial={{ opacity: 0, scale: 0.95 }}
@@ -102,11 +102,12 @@ export function RegistrationModal() {
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{
               duration: 0.4,
-              ease: [0.23, 1, 0.82, 1], // Custom easing for smooth motion
+              ease: [0.23, 1, 0.82, 1],
             }}
-            className="fixed inset-0 z-50 flex items-center justify-center pointer-events-auto p-4 overflow-hidden"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
           >
-            <div className="relative w-full max-w-4xl max-h-[95vh] flex flex-col">
+            {/* Modal Container - Bounded height with internal scrolling */}
+            <div className="w-full max-w-5xl max-h-[90vh] overflow-y-auto relative">
               {/* Close Button */}
               <AnimatePresence>
                 {showCloseButton && (
@@ -117,31 +118,29 @@ export function RegistrationModal() {
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.3 }}
                     onClick={handleCloseModal}
-                    className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/40 flex items-center justify-center transition-all duration-200 hover:scale-125 group cursor-pointer"
+                    className="absolute top-6 right-6 z-50 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/40 flex items-center justify-center transition-all duration-200 hover:scale-125 cursor-pointer"
                     aria-label="Close modal"
                     type="button"
                   >
-                    <span className="text-white text-xl font-bold group-hover:scale-125 transition-transform">
-                      ✕
-                    </span>
+                    <span className="text-white text-xl font-bold">✕</span>
                   </motion.button>
                 )}
               </AnimatePresence>
 
-              {/* Modal Content - Scrollable */}
+              {/* Modal Content */}
               <motion.div
                 initial={{ y: 20 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-2xl rounded-3xl border border-white/10 shadow-2xl overflow-y-auto w-full flex-1"
+                className="bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-2xl rounded-3xl border border-white/10 shadow-2xl"
               >
                 {/* Premium header accent */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500" />
+                <div className="h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-t-3xl" />
 
                 {/* Progress Line - Shows until close button appears */}
                 {!showCloseButton && (
                   <motion.div
-                    className="absolute top-1 left-0 h-0.5 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 rounded-full"
+                    className="h-0.5 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400"
                     style={{ width: `${closeButtonProgress}%` }}
                     transition={{ width: { duration: 0.1 } }}
                   />
