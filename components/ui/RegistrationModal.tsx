@@ -94,7 +94,7 @@ export function RegistrationModal() {
             onClick={showCloseButton ? handleCloseModal : undefined}
           />
 
-          {/* Modal Wrapper - Centered with scroll support */}
+          {/* Modal Wrapper - Properly centered */}
           <motion.div
             key="modal"
             initial={{ opacity: 0, scale: 0.95 }}
@@ -104,10 +104,10 @@ export function RegistrationModal() {
               duration: 0.4,
               ease: [0.23, 1, 0.82, 1],
             }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-auto"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
           >
-            {/* Modal Container - Responsive with natural scrolling */}
-            <div className="w-full max-w-5xl relative">
+            {/* Modal Container - With bounded scrolling */}
+            <div className="w-full max-w-5xl max-h-[95vh] overflow-y-auto rounded-3xl">
               {/* Close Button */}
               <AnimatePresence>
                 {showCloseButton && (
@@ -118,7 +118,7 @@ export function RegistrationModal() {
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.3 }}
                     onClick={handleCloseModal}
-                    className="absolute top-6 right-6 z-50 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/40 flex items-center justify-center transition-all duration-200 hover:scale-125 cursor-pointer"
+                    className="fixed top-6 right-6 z-50 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/40 flex items-center justify-center transition-all duration-200 hover:scale-125 cursor-pointer"
                     aria-label="Close modal"
                     type="button"
                   >
