@@ -47,9 +47,11 @@ export function RegistrationForm({ onSuccess, isModal = false }: RegistrationFor
   const [otpLoading, setOtpLoading] = useState(false)
   const [otpError, setOtpError] = useState('')
 
-  const labelClass = 'block mb-2 text-sm text-gray-400 font-medium'
-  const controlClass =
-    'w-full h-12 px-4 bg-white/10 border border-white/20 rounded-xl backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base'
+  // Larger fonts for modal display
+  const labelClass = isModal ? 'block mb-2 text-base text-gray-300 font-medium' : 'block mb-2 text-sm text-gray-400 font-medium'
+  const controlClass = isModal
+    ? 'w-full h-14 px-4 bg-white/10 border border-white/20 rounded-xl backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base'
+    : 'w-full h-12 px-4 bg-white/10 border border-white/20 rounded-xl backdrop-blur-sm transition-all duration-300 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base'
   const controlErrorClass = 'border-red-500'
 
   // Validation functions
@@ -308,12 +310,12 @@ export function RegistrationForm({ onSuccess, isModal = false }: RegistrationFor
             animate="visible"
             className="mb-5 text-center"
           >
-            <h1 className="text-3xl font-bold mb-1">
+            <h1 className={isModal ? "text-4xl font-bold mb-1" : "text-3xl font-bold mb-1"}>
               <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Register Now
               </span>
             </h1>
-            <p className="text-gray-300 text-base">Join AI Udaan Bootcamp 2026</p>
+            <p className={isModal ? "text-gray-300 text-lg" : "text-gray-300 text-base"}>Join AI Udaan Bootcamp 2026</p>
             <div className="h-1 w-20 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full mx-auto mt-2" />
           </motion.div>
 
@@ -372,13 +374,13 @@ export function RegistrationForm({ onSuccess, isModal = false }: RegistrationFor
                     type="button"
                     onClick={sendOTP}
                     disabled={otpLoading || !formData.email.trim()}
-                    className="h-12 px-4 bg-cyan-500 hover:bg-cyan-600 disabled:bg-gray-500 text-white font-medium rounded-xl transition-all duration-300 whitespace-nowrap"
+                    className={isModal ? "h-14 px-4 bg-cyan-500 hover:bg-cyan-600 disabled:bg-gray-500 text-white font-medium rounded-xl transition-all duration-300 whitespace-nowrap text-base" : "h-12 px-4 bg-cyan-500 hover:bg-cyan-600 disabled:bg-gray-500 text-white font-medium rounded-xl transition-all duration-300 whitespace-nowrap"}
                   >
                     {otpLoading ? 'Sending...' : 'Send OTP'}
                   </button>
                 )}
                 {emailVerified && (
-                  <div className="h-12 px-4 bg-green-500/20 border border-green-500 text-green-400 font-medium rounded-xl whitespace-nowrap flex items-center gap-2">
+                  <div className={isModal ? "h-14 px-4 bg-green-500/20 border border-green-500 text-green-400 font-medium rounded-xl whitespace-nowrap flex items-center gap-2 text-base" : "h-12 px-4 bg-green-500/20 border border-green-500 text-green-400 font-medium rounded-xl whitespace-nowrap flex items-center gap-2"}>
                     ✓ Verified
                   </div>
                 )}
@@ -412,7 +414,7 @@ export function RegistrationForm({ onSuccess, isModal = false }: RegistrationFor
                     type="button"
                     onClick={verifyOTP}
                     disabled={otpLoading || !otp.trim()}
-                    className="h-12 px-4 bg-green-600 hover:bg-green-700 disabled:bg-gray-500 text-white font-medium rounded-xl transition-all duration-300 whitespace-nowrap"
+                    className={isModal ? "h-14 px-4 bg-green-600 hover:bg-green-700 disabled:bg-gray-500 text-white font-medium rounded-xl transition-all duration-300 whitespace-nowrap text-base" : "h-12 px-4 bg-green-600 hover:bg-green-700 disabled:bg-gray-500 text-white font-medium rounded-xl transition-all duration-300 whitespace-nowrap"}
                   >
                     {otpLoading ? 'Verifying...' : 'Verify'}
                   </button>
@@ -656,7 +658,7 @@ export function RegistrationForm({ onSuccess, isModal = false }: RegistrationFor
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full relative overflow-hidden group h-12 px-6 rounded-xl font-bold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-cyan-500 hover:bg-cyan-600 text-white shadow-lg"
+                className={isModal ? "w-full relative overflow-hidden group h-14 px-6 rounded-xl font-bold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-cyan-500 hover:bg-cyan-600 text-white shadow-lg" : "w-full relative overflow-hidden group h-12 px-6 rounded-xl font-bold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-cyan-500 hover:bg-cyan-600 text-white shadow-lg"}
               >
                 {/* Button content */}
                 <div className="relative flex items-center justify-center gap-2 text-white">
